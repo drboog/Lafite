@@ -13,5 +13,5 @@ The implementation is based on [stylegan2-ada-pytorch](https://github.com/NVlabs
 ## Training
 
 
---------------------------
+##
 Please contact yufanzho@buffalo.edu if you have any question.
