@@ -1,5 +1,5 @@
 # Lafite
-Code for paper LAFITE: Towards Language-Free Training for Text-to-Image Generation (CVPR 2022)
+Code for paper [https://arxiv.org/abs/2111.13792] (LAFITE: Towards Language-Free Training for Text-to-Image Generation) (CVPR 2022)
 
 
 --------------------------
