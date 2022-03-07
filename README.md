@@ -13,6 +13,9 @@ The implementation is based on [stylegan2-ada-pytorch](https://github.com/NVlabs
 ## Training
 
 
+## Pre-trained Models
+Here we provide several pre-trained models (on google drive).
+
 ## Citation
 ```
 @article{zhou2021lafite,
