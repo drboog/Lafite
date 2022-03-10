@@ -438,11 +438,7 @@ def training_loop(
                     img_list.append(img_)
                 images = torch.cat([img.cpu() for img in img_list]).numpy()            
                 save_image_grid(images, os.path.join(run_dir, f'fakes_{cur_nimg//1000:06d}style_txt_step_{step}.png'), drange=[-1,1], grid_size=grid_size)   
-            
-#             for step_num in range(5):
-#                 images = torch.cat([G_ema(z=z, c=c, fts=f, step=step_num+1, noise_mode='const').cpu() for f, z, c in zip(f_txt_, grid_z, grid_c)]).numpy()            
-#                 save_image_grid(images, os.path.join(run_dir, f'fakes_{cur_nimg//1000:06d}txt_step_{step_num+1}.png'), drange=[-1,1], grid_size=grid_size)   
-            
+
         # Save network snapshot.
         snapshot_pkl = None
         snapshot_data = None
