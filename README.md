@@ -13,13 +13,16 @@ Example:
 python dataset_tool.py --source=./path_to_some_dataset/ --dest=./datasets/some_dataset.zip --width=256 --height=256 --transform=center-crop
 ```
 the files at ./path_to_some_dataset/ should be like:
-&ensp;&ensp;&boxvr;&nbsp; ./path_to_some_dataset/1.png
 
-&ensp;&ensp;&boxvr;&nbsp; ./path_to_some_dataset/1.txt
+./path_to_some_dataset/
 
-&ensp;&ensp;&boxvr;&nbsp; ./path_to_some_dataset/2.png
+&ensp;&ensp;&boxvr;&nbsp; 1.png
 
-&ensp;&ensp;&boxvr;&nbsp; ./path_to_some_dataset/2.txt
+&ensp;&ensp;&boxvr;&nbsp; 1.txt
+
+&ensp;&ensp;&boxvr;&nbsp; 2.png
+
+&ensp;&ensp;&boxvr;&nbsp; 2.txt
 
 &ensp;&ensp;&boxvr;&nbsp; ...
 
