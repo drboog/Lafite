@@ -49,16 +49,16 @@ Example:
 
 Training with ground-truth pairs
 ```
-python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
 ```
 
 Training with language-free methods (pseudo image-text feature pairs)
 ```
-python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
 ```
 
 ## Pre-trained Models
-Here we provide several pre-trained models (on google drive).
+Here we provide several pre-trained models (on google drive). 
 
 [Model trained on MS-COCO, Language-free (Lafite-G), CLIP-ViT/B-32](https://drive.google.com/file/d/1eNkuZyleGJ3A3WXTCIGYXaPwJ6NH9LRA/view?usp=sharing)
 
