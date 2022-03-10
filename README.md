@@ -8,13 +8,67 @@ The implementation is based on [stylegan2-ada-pytorch](https://github.com/NVlabs
 
 
 ## Preparing datasets
+Example:
+```
+python dataset_tool.py --source=./path_to_some_dataset/ --dest=./datasets/some_dataset.zip --width=256 --height=256 --transform=center-crop
+```
+the files at ./path_to_some_dataset/ should be like:
 
+./path_to_some_dataset/
+
+&ensp;&ensp;&boxvr;&nbsp; 1.png
+
+&ensp;&ensp;&boxvr;&nbsp; 1.txt
+
+&ensp;&ensp;&boxvr;&nbsp; 2.png
+
+&ensp;&ensp;&boxvr;&nbsp; 2.txt
+
+&ensp;&ensp;&boxvr;&nbsp; ...
+
+We provide links to several commonly used datasets that we have already processed (on google drive):
+
+[MS-COCO Training Set](https://drive.google.com/file/d/1b82BCh65XxwR-TiA8zu__wwiEHLCgrw2/view?usp=sharing) 
+
+[MS-COCO Validation Set](https://drive.google.com/file/d/1qBy5rPfo1go4d-PjF_Gu0kESCZ9Nt1Ta/view?usp=sharing)
+
+[LN-COCO Training Set](https://drive.google.com/file/d/177Q_TGEXmIf_bk8j3bE_yAhr_3YrhLQY/view?usp=sharing)
+
+[LN-COCO Testing Set](https://drive.google.com/file/d/12o2q2K7Ia6GTeqKL-g4x52t1Dv9lRrpK/view?usp=sharing)
+
+[Multi-modal CelebA-HQ Training Set](https://drive.google.com/file/d/1TVpvwfi40Quk1oG1xvc8K2EQfb0koWN5/view?usp=sharing)
+
+[Multi-modal CelebA-HQ Testing Set](https://drive.google.com/file/d/1FbsRLyqcQiwsyYENEvtP01-w9l1Hzpvl/view?usp=sharing)
+
+[CUB Training Set](https://drive.google.com/file/d/1Hc3JZnHiDLpM6L2DuFuMTFTBXLgRB5DL/view?usp=sharing)
+
+[CUB Testing Set](https://drive.google.com/file/d/1tzJQnwtAd7bhs0bLAzNGwCeC-DItUoKJ/view?usp=sharing)
 
 ## Training
+Example:
 
+Training with ground-truth pairs
+```
+python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+```
+
+Training with language-free methods (pseudo image-text feature pairs)
+```
+python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+```
 
 ## Pre-trained Models
 Here we provide several pre-trained models (on google drive).
+
+[Model trained on MS-COCO, Language-free (Lafite-G), CLIP-ViT/B-32](https://drive.google.com/file/d/1eNkuZyleGJ3A3WXTCIGYXaPwJ6NH9LRA/view?usp=sharing)
+
+[Model trained on MS-COCO, Language-free (Lafite-NN), CLIP-ViT/B-32](https://drive.google.com/file/d/1WQnlCM4pQZrw3u9ZeqjeUNqHuYfiDEU3/view?usp=sharing)
+
+[Model trained on MS-COCO with Ground-truth Image-text Pairs, CLIP-ViT/B-16](https://drive.google.com/file/d/1tMD6MWydRDMaaM7iTOKsUK-Wv2YNDRRt/view?usp=sharing)
+
+[Model trained on MS-COCO with Ground-truth Image-text Pairs, CLIP-ViT/B-16](https://drive.google.com/file/d/17ER7Yl02Y6yCPbyWxK_tGrJ8RKkcieKq/view?usp=sharing)
+
+[Model Pre-trained On Google CC3M](https://drive.google.com/file/d/17ER7Yl02Y6yCPbyWxK_tGrJ8RKkcieKq/view?usp=sharing)
 
 ## Citation
 ```
