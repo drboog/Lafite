@@ -1,6 +1,7 @@
 # Lafite
 Code for paper [LAFITE: Towards Language-Free Training for Text-to-Image Generation](https://arxiv.org/abs/2111.13792) (CVPR 2022)
 
+Update more details later.
 
 ## Requirements
 
@@ -26,7 +27,7 @@ the files at ./path_to_some_dataset/ should be like:
 
 &ensp;&ensp;&boxvr;&nbsp; ...
 
-We provide links to several commonly used datasets that we have already processed (on google drive):
+We provide links to several commonly used datasets that we have already processed (with CLIP-ViT/B-32):
 
 [MS-COCO Training Set](https://drive.google.com/file/d/1b82BCh65XxwR-TiA8zu__wwiEHLCgrw2/view?usp=sharing) 
 
@@ -49,16 +50,16 @@ Example:
 
 Training with ground-truth pairs
 ```
-python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
 ```
 
 Training with language-free methods (pseudo image-text feature pairs)
 ```
-python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
 ```
 
 ## Pre-trained Models
-Here we provide several pre-trained models (on google drive).
+Here we provide several pre-trained models (on google drive). 
 
 [Model trained on MS-COCO, Language-free (Lafite-G), CLIP-ViT/B-32](https://drive.google.com/file/d/1eNkuZyleGJ3A3WXTCIGYXaPwJ6NH9LRA/view?usp=sharing)
 
