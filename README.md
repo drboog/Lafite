@@ -27,7 +27,7 @@ the files at ./path_to_some_dataset/ should be like:
 
 &ensp;&ensp;&boxvr;&nbsp; ...
 
-We provide links to several commonly used datasets that we have already processed (on google drive):
+We provide links to several commonly used datasets that we have already processed (with CLIP-ViT/B-32):
 
 [MS-COCO Training Set](https://drive.google.com/file/d/1b82BCh65XxwR-TiA8zu__wwiEHLCgrw2/view?usp=sharing) 
 
