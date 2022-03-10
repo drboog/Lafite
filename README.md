@@ -8,7 +8,7 @@ Update more details later.
 The implementation is based on [stylegan2-ada-pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch) and [CLIP](https://github.com/openai/CLIP), the required packages can be found in the links.
 
 
-## Preparing datasets
+## Preparing Datasets
 Example:
 ```
 python dataset_tool.py --source=./path_to_some_dataset/ --dest=./datasets/some_dataset.zip --width=256 --height=256 --transform=center-crop
