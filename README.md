@@ -55,7 +55,7 @@ python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamm
 
 Training with language-free methods (pseudo image-text feature pairs)
 ```
-python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=1.0
 ```
 
 ## Pre-trained Models
