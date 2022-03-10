@@ -1,10 +1,3 @@
-# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
-#
-# NVIDIA CORPORATION and its licensors retain all intellectual property
-# and proprietary rights in and to this software, related documentation
-# and any modifications thereto.  Any use, reproduction, disclosure or
-# distribution of this software and related documentation without an express
-# license agreement from NVIDIA CORPORATION is strictly prohibited.
 
 import numpy as np
 import torch
@@ -79,10 +72,6 @@ class StyleGAN2Loss(Loss):
         self.pl_mean = torch.zeros([], device=device)
         clip_model, _ = clip.load("ViT-B/32", device=device)  # Load CLIP model here
         self.clip_model = clip_model.eval()
-        # use a pre-trained VGG net for image-image contrastive loss ?
-#         url = 'https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metrics/vgg16.pt'
-#         with dnnlib.util.open_url(url) as f:
-#             self.vgg16 = torch.jit.load(f).eval().to(device)
         self.mapper = Model(device)
         self.mapper.load_state_dict(torch.load('./implicit.0.001.64.True.0.0.pth', map_location='cpu')) # path to the noise mapping network
         self.mapper.to(device)
@@ -91,27 +80,10 @@ class StyleGAN2Loss(Loss):
     def run_G(self, z, c, sync, txt_fts=None, ):
         with misc.ddp_sync(self.G_mapping, sync):
             ws = self.G_mapping(z, c)
-            
-#             if self.style_mixing_prob > 0:
-#                 new_ws = self.G_mapping(torch.randn_like(z), c, skip_w_avg_update=True)
-#                 with torch.autograd.profiler.record_function('style_mixing'):
-#                     cutoff = torch.empty([], dtype=torch.int64, device=ws.device).random_(1, ws.shape[1])
-#                     cutoff = torch.where(torch.rand([], device=ws.device) < self.style_mixing_prob, cutoff, torch.full_like(cutoff, ws.shape[1]))
-#                     ws[:, cutoff:] = new_ws[:, cutoff:]
-            
-#             if self.G_mani is not None:
-#                 if txt_fts is None:
-#                     txt_fts = torch.randn(z.size()[0], self.G_mani.f_dim).to(ws.device)
-#                     txt_fts = txt_fts/txt_fts.norm(dim=-1, keepdim=True)
-#                 ws = self.G_mani(z=txt_fts, c=c, w=ws)
                 
             if self.style_mixing_prob > 0:
                 new_ws = self.G_mapping(torch.randn_like(z), c, skip_w_avg_update=True)
-#                 if self.G_mani is not None:
-#                     if txt_fts is None:
-#                         txt_fts = torch.randn(z.size()[0], self.G_mani.f_dim).to(ws.device)
-#                         txt_fts = txt_fts/txt_fts.norm(dim=-1, keepdim=True)
-#                     new_ws = self.G_mani(z=txt_fts, c=c, w=new_ws, skip_w_avg_update=True)
+
                 with torch.autograd.profiler.record_function('style_mixing'):
                     cutoff = torch.empty([], dtype=torch.int64, device=ws.device).random_(1, ws.shape[1])
                     cutoff = torch.where(torch.rand([], device=ws.device) < self.style_mixing_prob, cutoff, torch.full_like(cutoff, ws.shape[1]))
@@ -137,12 +109,6 @@ class StyleGAN2Loss(Loss):
         full_size = img.shape[-2]
 
         if full_size < 224:
-#             cut_size = torch.randint(9*full_size//10, full_size, ())
-#             left = torch.randint(0, full_size-cut_size, ())
-#             top = torch.randint(0, full_size-cut_size, ())
-#             cropped_img = img[:, :, top:top+cut_size, left:left+cut_size]
-#             reshaped_img = F.interpolate(cropped_img, (224, 224), mode=mode, align_corners=False)
-            
             pad_1 = torch.randint(0, 224-full_size, ())
             pad_2 = torch.randint(0, 224-full_size, ())
             m = torch.nn.ConstantPad2d((pad_1, 224-full_size-pad_1, pad_2, 224-full_size-pad_2), 1.)
@@ -239,7 +205,6 @@ class StyleGAN2Loss(Loss):
         img_img_c = iic  # clip
         img_txt_d = itd # discriminator
         img_txt_c = itc # clip
-        img_img_region = 0.
         temp = temp
         lam = lam
         

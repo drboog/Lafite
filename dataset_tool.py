@@ -1,10 +1,3 @@
-# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
-#
-# NVIDIA CORPORATION and its licensors retain all intellectual property
-# and proprietary rights in and to this software, related documentation
-# and any modifications thereto.  Any use, reproduction, disclosure or
-# distribution of this software and related documentation without an express
-# license agreement from NVIDIA CORPORATION is strictly prohibited.
 
 import functools
 import io
@@ -477,7 +470,7 @@ def convert_dataset(
                     img = PIL.Image.fromarray(img, { 1: 'L', 3: 'RGB' }[channels])
                     feature = torch.zeros(1, 512).cuda()
 
-                    cut_num_ = 16
+                    cut_num_ = 1
                     for _ in range(cut_num_): # random crop and resize to get the average feature of image
                         reshaped_img = custom_reshape(T.ToTensor()(img).unsqueeze(0))
                         normed_img = clip_preprocess()(reshaped_img).cuda()
