@@ -26,9 +26,36 @@ the files at ./path_to_some_dataset/ should be like:
 
 &ensp;&ensp;&boxvr;&nbsp; ...
 
+We provide links to several commonly used datasets that we have already processed (on google drive):
+
+[MS-COCO Training Set](https://drive.google.com/file/d/1b82BCh65XxwR-TiA8zu__wwiEHLCgrw2/view?usp=sharing) 
+
+[MS-COCO Validation Set](https://drive.google.com/file/d/1qBy5rPfo1go4d-PjF_Gu0kESCZ9Nt1Ta/view?usp=sharing)
+
+[LN-COCO Training Set](https://drive.google.com/file/d/177Q_TGEXmIf_bk8j3bE_yAhr_3YrhLQY/view?usp=sharing)
+
+[LN-COCO Testing Set](https://drive.google.com/file/d/12o2q2K7Ia6GTeqKL-g4x52t1Dv9lRrpK/view?usp=sharing)
+
+[Multi-modal CelebA-HQ Training Set](https://drive.google.com/file/d/1TVpvwfi40Quk1oG1xvc8K2EQfb0koWN5/view?usp=sharing)
+
+[Multi-modal CelebA-HQ Testing Set](https://drive.google.com/file/d/1FbsRLyqcQiwsyYENEvtP01-w9l1Hzpvl/view?usp=sharing)
+
+[CUB Training Set](https://drive.google.com/file/d/1Hc3JZnHiDLpM6L2DuFuMTFTBXLgRB5DL/view?usp=sharing)
+
+[CUB Testing Set](https://drive.google.com/file/d/1tzJQnwtAd7bhs0bLAzNGwCeC-DItUoKJ/view?usp=sharing)
 
 ## Training
+Example:
 
+Training with ground-truth pairs
+```
+python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+```
+
+Training with language-free methods (pseudo image-text feature pairs)
+```
+python train.py --gpus=4 --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+```
 
 ## Pre-trained Models
 Here we provide several pre-trained models (on google drive).
