@@ -256,16 +256,7 @@ def compute_feature_stats_for_dataset(opts, detector_url, detector_kwargs, rel_l
 
 #----------------------------------------------------------------------------
 def compute_feature_stats_for_generator(opts, detector_url, detector_kwargs, rel_lo=0, rel_hi=1, batch_size=64, batch_gen=None, jit=False, max_items=None, **stats_kwargs):
-    
-    step_num = 0 # latent sampling step number
-    step_lr = 0.001 # step size for latent sampling
-        
-    if step_num == 0:
-        G = copy.deepcopy(opts.G).eval().requires_grad_(False).to(opts.device)
-    else:
-        G = copy.deepcopy(opts.G).eval().requires_grad_(True).to(opts.device)
-        D = copy.deepcopy(opts.D).eval().requires_grad_(True).to(opts.device)
-
+    G = copy.deepcopy(opts.G).eval().requires_grad_(False).to(opts.device)
     if opts.img_recon:
         batch_gen = batch_size = 4
         dataset = dnnlib.util.construct_class_by_name(**opts.testset_kwargs)
@@ -291,29 +282,11 @@ def compute_feature_stats_for_generator(opts, detector_url, detector_kwargs, rel
                 dataloader_iterator = iter(torch.utils.data.DataLoader(dataset=dataset, sampler=item_subset, batch_size=batch_size, **data_loader_kwargs))
                 images, _labels, img_fts, txt_fts = next(dataloader_iterator)
 
-            if step_num == 0 or step_lr < 1e-7:
-                with torch.no_grad():
-                    clip_img_features = img_fts/img_fts.norm(dim=-1, keepdim=True)#.view((batch_size, -1))
-                    z = torch.randn([img_fts.size()[0], G.z_dim], device=opts.device)
-                    imgs = G(z=z, c=_labels.to(opts.device), fts=clip_img_features.to(opts.device))
-                    imgs = (imgs * 127.5 + 128).clamp(0, 255).to(torch.uint8)
-            else:
-                with torch.no_grad():
-                    clip_img_features = (img_fts/img_fts.norm(dim=-1, keepdim=True)).to(opts.device)#.view((batch_size, -1))
+            with torch.no_grad():
+                clip_img_features = img_fts/img_fts.norm(dim=-1, keepdim=True)#.view((batch_size, -1))
                 z = torch.randn([img_fts.size()[0], G.z_dim], device=opts.device)
-                z.requires_grad_()
-                for _ in range(step_num):
-                    imgs = G(z=z, c=_labels.to(opts.device), fts=clip_img_features)
-                    d_fts, _ = D(imgs, c=_labels.to(opts.device), fts=clip_img_features)
-                    loss = -d_fts.mean()
-                    z_grad = torch.autograd.grad(loss, z)[0]
-                    z = z - step_lr*z_grad + torch.normal(0., np.sqrt(2*step_lr)*0.01, size=z.size()).to(opts.device)
-#                         z = torch.clamp(z, -3., 3.)
-                    del imgs, d_fts, z_grad
-
-                with torch.no_grad():
-                    imgs = G(z=z, c=_labels.to(opts.device), fts=clip_img_features)
-                    imgs = (imgs * 127.5 + 128).clamp(0, 255).to(torch.uint8)
+                imgs = G(z=z, c=_labels.to(opts.device), fts=clip_img_features.to(opts.device))
+                imgs = (imgs * 127.5 + 128).clamp(0, 255).to(torch.uint8)
 
             if imgs.shape[1] == 1:
                 imgs = imgs.repeat([1, 3, 1, 1])
@@ -347,46 +320,11 @@ def compute_feature_stats_for_generator(opts, detector_url, detector_kwargs, rel
                 dataloader_iterator = iter(torch.utils.data.DataLoader(dataset=dataset, sampler=item_subset, batch_size=batch_size, **data_loader_kwargs))
                 images, _labels, img_fts, txt_fts = next(dataloader_iterator)
                 
-            if step_num == 0 or step_lr < 1e-7:
-                with torch.no_grad():
-                    clip_txt_features = txt_fts/txt_fts.norm(dim=-1, keepdim=True)#.view((batch_size, -1))
-                    z = torch.randn([txt_fts.size()[0], G.z_dim], device=opts.device)
-                    imgs = G(z=z, c=_labels.to(opts.device), fts=clip_txt_features.to(opts.device))
-                    imgs = (imgs * 127.5 + 128).clamp(0, 255).to(torch.uint8)
-            else:
-                with torch.no_grad():
-                    clip_txt_features = (txt_fts/txt_fts.norm(dim=-1, keepdim=True)).to(opts.device)#.view((batch_size, -1))
-                z = torch.randn([img_fts.size()[0], G.z_dim], device=opts.device)
-                z.requires_grad_()
-                for _ in range(step_num):
-                    imgs = G(z=z, c=_labels.to(opts.device), fts=clip_txt_features)
-                    d_fts, _ = D(imgs, c=_labels.to(opts.device), fts=clip_txt_features)
-                    loss = -d_fts.mean()
-                    z_grad = torch.autograd.grad(loss, z)[0]
-                    z = z - step_lr*z_grad + torch.normal(0., np.sqrt(2*step_lr)*0.01, size=z.size()).to(opts.device)
-#                         z = torch.clamp(z, -3., 3.)
-                    del imgs, d_fts, z_grad
-
-                with torch.no_grad():
-                    imgs = G(z=z, c=_labels.to(opts.device), fts=clip_txt_features)
-                    imgs = (imgs * 127.5 + 128).clamp(0, 255).to(torch.uint8)   
-
-#                 z = torch.randn([img_fts.size()[0], G.z_dim], device=opts.device)
-#                 imgs, s = G(z=z, c=_labels.to(opts.device), fts=clip_txt_features, return_styles=True)
-#                 for _ in range(step_num):
-#                     for s_ in s:
-#                         s_.requires_grad_()
-#                     imgs = G(z=z, c=_labels.to(opts.device), fts=clip_txt_features, styles=s)
-#                     d_fts, _ = D(imgs, c=_labels.to(opts.device), fts=clip_txt_features)
-#                     loss = -d_fts.mean()
-#                     s_grad = torch.autograd.grad(loss, s, retain_graph=True)
-#                     s = [(s[ind] - step_lr*s_grad[ind]).detach().clone() for ind in range(len(s))]
-# #                         z = torch.clamp(z, -3., 3.)
-#                     del imgs, d_fts, s_grad
-
-#                 with torch.no_grad():
-#                     imgs = G(z=z, c=_labels.to(opts.device), fts=clip_txt_features, styles=s)
-#                     imgs = (imgs * 127.5 + 128).clamp(0, 255).to(torch.uint8)    
+            with torch.no_grad():
+                clip_txt_features = txt_fts/txt_fts.norm(dim=-1, keepdim=True)#.view((batch_size, -1))
+                z = torch.randn([txt_fts.size()[0], G.z_dim], device=opts.device)
+                imgs = G(z=z, c=_labels.to(opts.device), fts=clip_txt_features.to(opts.device))
+                imgs = (imgs * 127.5 + 128).clamp(0, 255).to(torch.uint8)
 
 
             if imgs.shape[1] == 1:
