@@ -46,16 +46,16 @@ We provide links to several commonly used datasets that we have already processe
 [CUB Testing Set](https://drive.google.com/file/d/1tzJQnwtAd7bhs0bLAzNGwCeC-DItUoKJ/view?usp=sharing)
 
 ## Training
-Example:
+Example (Please tune itd, itc and gamma, they might be sensitive to datasets):
 
 Training with ground-truth pairs
 ```
-python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=20 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
 ```
 
 Training with language-free methods (pseudo image-text feature pairs)
 ```
-python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=1.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=20 --itc=20 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=1.0
 ```
 
 ## Pre-trained Models
