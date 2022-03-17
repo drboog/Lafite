@@ -132,13 +132,8 @@ class Dataset(torch.utils.data.Dataset):
         return img_features.copy()
 
     def get_txt_features(self, idx):
-        txt_features = self._get_clip_txt_features()[self._raw_idx[idx]]
-#         index = np.random.randint(0, len(txt_features), ())
-#         txt_features = txt_features[index] # randomly select one from the features
-#         txt_features = np.array(txt_features)
-#         txt_features = txt_features.astype(np.float32)
-#         return txt_features.copy()
         try:
+            txt_features = self._get_clip_txt_features()[self._raw_idx[idx]]
             index = np.random.randint(0, len(txt_features), ())
             txt_features = txt_features[index] # randomly select one from the features
             txt_features = np.array(txt_features)
