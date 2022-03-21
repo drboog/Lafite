@@ -146,9 +146,8 @@ class StyleGAN2Loss(Loss):
     def contra_loss(self, temp, mat1, mat2, lam):
         sim = torch.cosine_similarity(mat1.unsqueeze(1), mat2.unsqueeze(0), dim=-1)
         if temp > 0.:
-            sim = torch.exp(sim/temp) # sim/temp.
-            # This implementation is incorrect, it should be sim=sim/temp.
-            # However, this incorrect implementation can easily reproduce our results.
+            sim = torch.exp(sim/temp) # This implementation is incorrect, it should be sim=sim/temp.
+            # However, this incorrect implementation can reproduce our results with provided hyper-parameters.
             # If you want to use the correct implementation, please manually revise it.
             # The correct implementation should lead to better results, but don't use our provided hyper-parameters, you need to carefully tune lam, temp, itd, itc and other hyper-parameters
             sim1 = torch.diagonal(F.softmax(sim, dim=1))*temp
