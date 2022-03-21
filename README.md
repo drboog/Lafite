@@ -50,12 +50,12 @@ Example (Please tune itd, itc and gamma, they might be sensitive to datasets):
 
 Training with ground-truth pairs
 ```
-python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=20 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=5 --itc=10 --gamma=10 --mirror=1 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=0.0
 ```
 
 Training with language-free methods (pseudo image-text feature pairs)
 ```
-python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=20 --itc=20 --gamma=10 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=1.0
+python train.py --gpus=4 --outdir=./outputs/ --temp=0.5 --itd=10 --itc=10 --gamma=10 --mirror=1 --data=./datasets/COCO2014_train_CLIP_ViTB32.zip --test_data=./datasets/COCO2014_val_CLIP_ViTB32.zip --mixing_prob=1.0
 ```
 
 ## Pre-trained Models
@@ -71,6 +71,14 @@ Here we provide several pre-trained models (on google drive).
 
 [Model Pre-trained On Google CC3M](https://drive.google.com/file/d/17ER7Yl02Y6yCPbyWxK_tGrJ8RKkcieKq/view?usp=sharing)
 
+## Testing
+Calculating metrics:
+
+```
+python calc_metrics.py --network=./some_pre-trained_models.pkl --metrics=fid50k_full,is50k --data=./training_data.zip --test_data=./testing_data.zip
+```
+
+To generate images with pre-trained models, you can use ./generate.ipynb
 ## Citation
 ```
 @article{zhou2021lafite,
