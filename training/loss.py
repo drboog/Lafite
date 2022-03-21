@@ -211,9 +211,9 @@ class StyleGAN2Loss(Loss):
         temp = temp
         lam = lam
         
-        world_size = torch.distributed.get_world_size()
 
         def gather_tensor(input_tensor, gather_or_not):
+            world_size = torch.distributed.get_world_size()
             rank = torch.distributed.get_rank()
             if gather_or_not:
                 output_tensor = [torch.zeros_like(input_tensor) for _ in range(world_size)]
