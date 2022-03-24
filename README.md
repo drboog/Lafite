@@ -46,7 +46,9 @@ We provide links to several commonly used datasets that we have already processe
 [CUB Testing Set](https://drive.google.com/file/d/1tzJQnwtAd7bhs0bLAzNGwCeC-DItUoKJ/view?usp=sharing)
 
 ## Training
-Example (Please tune itd, itc and gamma, they might be sensitive to datasets):
+Example:
+
+These hyper-parameters are used for **MS-COCO**, Please tune **itd**, **itc** and **gamma** on different datasets, they might be **sensitive** to datasets.
 
 Training with ground-truth pairs
 ```
