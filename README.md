@@ -82,6 +82,9 @@ python calc_metrics.py --network=./some_pre-trained_models.pkl --metrics=fid50k_
 ```
 
 To generate images with pre-trained models, you can use ./generate.ipynb
+
+To calculate SOA scores for MS-COCO, you can use ./generate_for_soa.py and [Semantic Object Accuracy for Generative Text-to-Image Synthesis](https://github.com/tohinz/semantic-object-accuracy-for-generative-text-to-image-synthesis)
+
 ## Citation
 ```
 @article{zhou2021lafite,
