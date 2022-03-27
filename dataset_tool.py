@@ -18,7 +18,7 @@ from tqdm import tqdm
 import torch.nn.functional as F
 import torchvision.transforms as T
 import torch
-
+import cv2
 
 def custom_reshape(img, mode='bicubic', ratio=0.99):   # more to be implemented here
     full_size = img.shape[-2]
@@ -90,6 +90,10 @@ def open_image_folder(source_dir, *, max_images: Optional[int]):
             arch_fname = arch_fname.replace('\\', '/')
             try:
                 img = np.array(PIL.Image.open(fname))
+
+                if img.shape[2] == 4:
+                    img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+
                 try:
                     with open(fname[:-4] + '.txt', 'r') as file:
                         txt = file.read().split('\n')
