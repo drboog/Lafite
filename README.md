@@ -81,7 +81,7 @@ Calculating metrics:
 python calc_metrics.py --network=./some_pre-trained_models.pkl --metrics=fid50k_full,is50k --data=./training_data.zip --test_data=./testing_data.zip
 ```
 
-To generate images with pre-trained models, you can use ./generate.ipynb
+To generate images with pre-trained models, you can use ./generate.ipynb. Also, you can try this [Colab notebook](https://colab.research.google.com/github/pollinations/hive/blob/main/interesting_notebooks/LAFITE_generate.ipynb) by @[voodoohop](https://github.com/voodoohop), in which the model pre-trained on CC3M is used.
 
 To calculate SOA scores for MS-COCO, you can use ./generate_for_soa.py and [Semantic Object Accuracy for Generative Text-to-Image Synthesis](https://github.com/tohinz/semantic-object-accuracy-for-generative-text-to-image-synthesis)
 
