@@ -70,7 +70,7 @@ Here we provide several pre-trained models (on google drive).
 
 [Model trained on MS-COCO with Ground-truth Image-text Pairs, CLIP-ViT/B-32](https://drive.google.com/file/d/1tMD6MWydRDMaaM7iTOKsUK-Wv2YNDRRt/view?usp=sharing)
 
-[Model trained on MS-COCO with Ground-truth Image-text Pairs, CLIP-ViT/B-16](https://drive.google.com/file/d/17ER7Yl02Y6yCPbyWxK_tGrJ8RKkcieKq/view?usp=sharing)
+[Model trained on MS-COCO with Ground-truth Image-text Pairs, CLIP-ViT/B-16](https://drive.google.com/file/d/1sYlYmPE6MKwp_2NxquxdGyWV8htVfCGX/view?usp=sharing)
 
 [Model Pre-trained On Google CC3M](https://drive.google.com/file/d/17ER7Yl02Y6yCPbyWxK_tGrJ8RKkcieKq/view?usp=sharing)
 
