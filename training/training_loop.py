@@ -444,6 +444,28 @@ def training_loop(
         snapshot_data = None
         if (network_snapshot_ticks is not None) and (done or cur_tick % network_snapshot_ticks == 0):
             snapshot_data = dict(training_set_kwargs=dict(training_set_kwargs))
+
+            snapshot_data['args'] = dict(  # newly added, not available in our pre-trained models
+                num_gpus=num_gpus,
+                batch_size=batch_size,
+                batch_gpu=batch_gpu,
+                G_reg_interval=G_reg_interval,
+                D_reg_interval=D_reg_interval,
+                allow_tf32=allow_tf32,
+                f_dim=f_dim,
+                d_use_norm=d_use_norm,
+                d_use_fts=d_use_fts,
+                mixing_prob=mixing_prob,
+                lam=lam,
+                temp=temp,
+                gather=gather,
+                itd=itd,
+                itc=itc,
+                iid=iid,
+                iic=iic,
+                loss_kwargs = loss_kwargs,
+            )
+
             for name, module in [('G', G), ('D', D), ('G_ema', G_ema), ('augment_pipe', augment_pipe)]:
                 if module is not None:
                     if num_gpus > 1:
