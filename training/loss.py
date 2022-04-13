@@ -173,9 +173,7 @@ class StyleGAN2Loss(Loss):
         aug_level_1 = 0.1
         aug_level_2 = 0.75
 #         print(torch.cosine_similarity(img_fts, txt_fts, dim=-1))
-        
-        # the semantic  similarity of perturbed feature with real feature would be:
-        # sim >= (sqrt(1 - aug_level^2)-aug_level)/(sqrt(1 + 2*aug_level*sqrt(1 - aug_level^2)))
+
         mixing_prob = mixing_prob # probability to use img_fts instead of txt_fts
         random_noise = torch.randn(txt_fts.shape).to(img_fts.device)# + torch.randn((1, 512)).to(img_fts.device)
         random_noise = random_noise/random_noise.norm(dim=-1, keepdim=True)
