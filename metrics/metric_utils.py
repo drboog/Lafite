@@ -263,11 +263,10 @@ def compute_feature_stats_for_generator(opts, detector_url, detector_kwargs, rel
         data_loader_kwargs = dict(pin_memory=False, num_workers=1, prefetch_factor=2)
 
         # Initialize.
-        num_items = len(dataset)
-#         if max_items is not None:
-#             num_items = 30000#max_items
-        num_items = 30000#min(num_items, 30000)
-#         print(f'generating {num_items} images')
+        if 'celeba' in opts.testset_kwargs['path'].lower():
+            num_items = 6000  # 6000 images are used for Multi-modal CelebA-HQ dataset
+        else:
+            num_items = 30000  # 30000 images are used for MS-COCO, CUB and LN-COCO datasets
         stats = FeatureStats(max_items=num_items, **stats_kwargs)
         progress = opts.progress.sub(tag='generator features', num_items=num_items, rel_lo=rel_lo, rel_hi=rel_hi)
         detector = get_feature_detector(url=detector_url, device=opts.device, num_gpus=opts.num_gpus, rank=opts.rank,
@@ -302,10 +301,10 @@ def compute_feature_stats_for_generator(opts, detector_url, detector_kwargs, rel
         data_loader_kwargs = dict(pin_memory=False, num_workers=1, prefetch_factor=2)
         
         # Initialize.
-        num_items = len(dataset)
-#         if max_items is not None:
-#             num_items = 30000#max_items
-        num_items = 30000# min(num_items, 30000)
+        if 'celeba' in opts.testset_kwargs['path'].lower():
+            num_items = 6000  # 6000 images are used for Multi-modal CelebA-HQ dataset
+        else:
+            num_items = 30000  # 30000 images are used for MS-COCO, CUB and LN-COCO datasets
         stats = FeatureStats(max_items=num_items, **stats_kwargs)
         progress = opts.progress.sub(tag='generator features', num_items=num_items, rel_lo=rel_lo, rel_hi=rel_hi)
         detector = get_feature_detector(url=detector_url, device=opts.device, num_gpus=opts.num_gpus, rank=opts.rank,
@@ -355,13 +354,11 @@ def compute_feature_stats_for_generator(opts, detector_url, detector_kwargs, rel
             run_generator = torch.jit.trace(run_generator, [z, c], check_trace=False)
 
         # Initialize.
-        num_items = len(dataset)
-        if max_items is not None:
-            num_items = min(num_items, max_items)
+        if 'celeba' in opts.testset_kwargs['path'].lower():
+            num_items = 6000  # 6000 images are used for Multi-modal CelebA-HQ dataset
+        else:
+            num_items = 30000  # 30000 images are used for MS-COCO, CUB and LN-COCO datasets
         stats = FeatureStats(max_items=num_items, **stats_kwargs)
-        
-#         stats = FeatureStats(**stats_kwargs)
-#         assert stats.max_items is not None
         progress = opts.progress.sub(tag='generator features', num_items=stats.max_items, rel_lo=rel_lo, rel_hi=rel_hi)
         detector = get_feature_detector(url=detector_url, device=opts.device, num_gpus=opts.num_gpus, rank=opts.rank, verbose=progress.verbose)
 
