@@ -15,6 +15,7 @@ from distutils.version import LooseVersion
 
 enabled = False                     # Enable the custom op by setting this to true.
 weight_gradients_disabled = False   # Forcefully disable computation of gradients with respect to the weights.
+old_version = LooseVersion(torch.__version__) < LooseVersion('1.11.0')
 
 @contextlib.contextmanager
 def no_weight_gradients():
@@ -134,11 +135,18 @@ def _conv2d_gradfix(transpose, weight_shape, stride, padding, output_padding, di
     class Conv2dGradWeight(torch.autograd.Function):
         @staticmethod
         def forward(ctx, grad_output, input, bias):
-            bias_shape = bias.shape if (bias is not None) else None
-            empty_weight = torch.empty(weight_shape, dtype=input.dtype, layout=input.layout, device=input.device)
-            grad_weight = torch.ops.aten.convolution_backward(grad_output, input, empty_weight, bias_sizes=bias_shape, stride=stride, padding=padding, dilation=dilation, transposed=transpose, output_padding=output_padding, groups=groups, output_mask=[0,1,0])[1]
-            assert grad_weight.shape == weight_shape
-            ctx.save_for_backward(grad_output, input)
+            if old_version:
+                op = torch._C._jit_get_operation(
+                    'aten::cudnn_convolution_backward_weight' if not transpose else 'aten::cudnn_convolution_transpose_backward_weight')
+                flags = [torch.backends.cudnn.benchmark, torch.backends.cudnn.deterministic,
+                         torch.backends.cudnn.allow_tf32]
+                grad_weight = op(weight_shape, grad_output, input, padding, stride, dilation, groups, *flags)
+            else:
+                bias_shape = bias.shape if (bias is not None) else None
+                empty_weight = torch.empty(weight_shape, dtype=input.dtype, layout=input.layout, device=input.device)
+                grad_weight = torch.ops.aten.convolution_backward(grad_output, input, empty_weight, bias_sizes=bias_shape, stride=stride, padding=padding, dilation=dilation, transposed=transpose, output_padding=output_padding, groups=groups, output_mask=[0,1,0])[1]
+                assert grad_weight.shape == weight_shape
+                ctx.save_for_backward(grad_output, input)
             return grad_weight
 
         @staticmethod
