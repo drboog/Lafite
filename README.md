@@ -1,7 +1,7 @@
 # Lafite
 Code for paper [LAFITE: Towards Language-Free Training for Text-to-Image Generation](https://arxiv.org/abs/2111.13792) (CVPR 2022)
 
-Update more details later.
+Looking for a better language-free method? Try [this](https://github.com/drboog/Shifted_Diffusion).
 
 ## Requirements
 
